@@ -1,33 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Saee Desai | Applied AI & ML Engineer</title>
-    <meta name="description"
-        content="Portfolio of Saee Desai — Applied AI and Machine Learning Engineer specializing in NLP, generative AI, AI systems, and secure data applications." />
+    <meta name="theme-color" content="#754ef9" />
+    <title>Saee Desai | AI & Machine Learning Engineer</title>
+    <meta name="description" content="Portfolio of Saee Desai, an AI and Machine Learning Engineer building reliable inference systems, agentic RAG applications, multimodal models, and secure data platforms." />
 
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="images/android-chrome-192x192.png" />
     <link rel="shortcut icon" type="image/png" href="images/android-chrome-192x192.png" />
-
-    <!-- Icons -->
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-
-    <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-    <header class="header">
-        <a href="#home" class="logo">Portfolio<span>.</span></a>
+    <a class="skip-link" href="#main-content">Skip to content</a>
 
-        <nav class="navbar">
+    <header class="header">
+        <a href="#home" class="logo" aria-label="Saee Desai home">Portfolio<span>.</span></a>
+
+        <nav class="navbar" id="primary-navigation" aria-label="Primary navigation">
             <a href="#home" class="active">Home</a>
             <a href="#about">About</a>
             <a href="#skills">Skills</a>
@@ -37,93 +31,78 @@
         </nav>
 
         <div class="nav-actions">
-            <button class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">
-                <i class="bx bx-moon"></i>
+            <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch to dark mode">
+                <i class="bx bx-moon" aria-hidden="true"></i>
             </button>
-            <button class="icon-btn" id="menu-icon" aria-label="Open navigation menu">
-                <i class="bx bx-menu"></i>
+            <button class="icon-btn" id="menu-icon" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="primary-navigation">
+                <i class="bx bx-menu" aria-hidden="true"></i>
             </button>
         </div>
     </header>
 
-    <main>
+    <main id="main-content">
         <section class="hero" id="home">
             <div class="home-content reveal">
-                <div class="eyebrow"><i class="bx bx-sparkles"></i> Applied AI • ML • NLP</div>
+                <div class="eyebrow"><i class="bx bx-sparkles" aria-hidden="true"></i> AI Systems • ML Infrastructure • Applied ML</div>
                 <h1>Hi, I’m <span>Saee Desai</span>.</h1>
-                <p>
-                    I’m a Data Science graduate from the University of Maryland who likes learning by building. Most of
-                    my projects start with curiosity, a lot of experimentation, and figuring things out along the way :
-                    from NLP systems and generative AI workflows to secure data pipelines and multimodal AI projects.
+                <p class="hero-lead">
+                    I’m an AI and Machine Learning Engineer who learns by building end-to-end systems—from agentic RAG and model evaluation to reliable inference services, cloud infrastructure, and secure data pipelines.
                 </p>
 
                 <div class="hero-buttons">
-                    <a href="resume/Resume_SaeeDesai_ML.pdf" class="btn btn-primary" download>
-                        <i class="bx bx-download"></i> Download Resume
+                    <a href="resume/SaeeDesai_Resume_AI.pdf" class="btn btn-primary" download>
+                        <i class="bx bx-download" aria-hidden="true"></i> Download Resume
                     </a>
                     <a href="#projects" class="btn btn-secondary">
-                        <i class="bx bx-briefcase"></i> View Projects
+                        <i class="bx bx-briefcase" aria-hidden="true"></i> View Featured Work
                     </a>
                 </div>
 
+
                 <div class="socials">
-                    <a href="mailto:saeedesai.dev@gmail.com" aria-label="Email"><i class="bx bx-envelope"></i></a>
-                    <a href="https://www.linkedin.com/in/saee-desai-237519206" target="_blank" rel="noreferrer"
-                        aria-label="LinkedIn"><i class="bx bxl-linkedin"></i></a>
-                    <a href="https://github.com/SaeeDesai" target="_blank" rel="noreferrer" aria-label="GitHub"><i
-                            class="bx bxl-github"></i></a>
+                    <a href="mailto:saeedesai.dev@gmail.com" aria-label="Email Saee"><i class="bx bx-envelope" aria-hidden="true"></i></a>
+                    <a href="https://www.linkedin.com/in/saee-desai-237519206" target="_blank" rel="noreferrer" aria-label="Saee on LinkedIn"><i class="bx bxl-linkedin" aria-hidden="true"></i></a>
+                    <a href="https://github.com/SaeeDesai" target="_blank" rel="noreferrer" aria-label="Saee on GitHub"><i class="bx bxl-github" aria-hidden="true"></i></a>
                 </div>
             </div>
 
             <div class="hero-card reveal">
                 <div class="profile-wrap">
-                    <img src="images/myimg-removebg.png" alt="Saee Desai" />
+                    <img src="images/myimg-removebg.png" alt="Portrait of Saee Desai" />
                 </div>
-
                 <div class="focus-grid">
-                    <div class="focus-pill"><i class="bx bx-message-square-dots"></i> NLP</div>
-                    <div class="focus-pill"><i class="bx bx-brain"></i> GenAI</div>
-                    <div class="focus-pill"><i class="bx bx-git-branch"></i> AI Systems</div>
-                    <div class="focus-pill"><i class="bx bx-shield-quarter"></i> Secure AI</div>
+                    <div class="focus-pill"><i class="bx bx-git-branch" aria-hidden="true"></i> AI Systems</div>
+                    <div class="focus-pill"><i class="bx bx-server" aria-hidden="true"></i> Reliability</div>
+                    <div class="focus-pill"><i class="bx bx-search-alt" aria-hidden="true"></i> RAG & Evals</div>
+                    <div class="focus-pill"><i class="bx bx-cloud" aria-hidden="true"></i> Cloud ML</div>
                 </div>
             </div>
         </section>
 
         <section class="about" id="about">
             <h2 class="section-title reveal">About <span>Me</span></h2>
-            <p class="section-subtitle reveal">
-                I learn best by building — usually starting with curiosity, then slowly turning confusion into something
-                real, tested, and useful.
-            </p>
+            <p class="section-subtitle reveal">I turn unfamiliar problems into working, tested systems; one experiment, failure, and engineering decision at a time.</p>
 
             <div class="about-grid">
                 <div class="about-image reveal">
-                    <img src="images/about_me.png" alt="Saee working on AI projects" />
+                    <img src="images/about_me.png" alt="Saee working on an AI project" loading="lazy" />
                 </div>
 
                 <div class="about-text reveal">
                     <p>
-                        I recently completed my M.S. in Data Science at the University of Maryland, College Park. I
-                        enjoy working on projects that sit somewhere between machine learning, NLP, generative AI, and
-                        real-world systems.
+                        I completed my M.S. in Data Science at the University of Maryland, College Park, where I worked across machine learning, NLP, deep learning, data systems, and computer vision.
                     </p>
                     <p>
-                        Most of the things I’ve learned came from building projects, getting stuck, reading
-                        documentation, experimenting, and slowly improving things over time. I’ve worked with
-                        transformers, diffusion models, LoRA, CLIP, Flask APIs, and post-quantum cryptography pipelines
-                        across different research and personal projects. I like projects where the technical side and
-                        the human side both matter — understanding model behavior, improving reliability, making systems
-                        usable, and turning vague ideas into something real.
+                        My recent work focuses on the engineering around AI: building retrieval pipelines, evaluating model behavior, serving inference reliably, handling overload and failures, monitoring production signals, and deploying systems to AWS. I enjoy projects where model quality and software reliability both matter.
                     </p>
                     <p>
-                        Outside of code, I’m probably listening to music, writing, overthinking a project idea, or
-                        searching for strong coffee.
+                        I’m especially interested in entry-level AI Engineer, Machine Learning Engineer, and AI Platform roles where I can contribute hands-on, learn from strong engineers, and grow into deeper ownership over time.
                     </p>
 
                     <div class="stats">
-                        <div class="stat"><strong>3.8</strong><span>M.S. GPA</span></div>
-                        <div class="stat"><strong>4+</strong><span>AI Projects</span></div>
-                        <div class="stat"><strong>1</strong><span>Springer Publication</span></div>
+                        <div class="stat"><strong>6+</strong><span>End-to-End Projects</span></div>
+                        <div class="stat"><strong>2</strong><span>First-Author Papers</span></div>
+                        <div class="stat"><strong>3.8</strong><span>GPA</span></div>
                     </div>
                 </div>
             </div>
@@ -131,178 +110,163 @@
 
         <section class="skills" id="skills">
             <h2 class="section-title reveal">Technical <span>Focus</span></h2>
-            <p class="section-subtitle reveal">
-                A practical mix of model development, evaluation, API-based systems, and AI workflow design.
-            </p>
+            <p class="section-subtitle reveal">A practical stack spanning model development, retrieval, backend engineering, reliability, cloud deployment, and evaluation.</p>
 
             <div class="skills-grid">
-                <div class="skill-card reveal">
-                    <i class="bx bx-code-alt"></i>
-                    <h3>Languages</h3>
+                <article class="skill-card reveal">
+                    <i class="bx bx-brain" aria-hidden="true"></i>
+                    <h3>Languages & ML</h3>
                     <div class="skill-tags">
-                        <span>Python</span><span>SQL</span><span>C++</span>
+                        <span>Python</span><span>SQL</span><span>PyTorch</span><span>TensorFlow</span><span>scikit-learn</span><span>Pandas</span>
                     </div>
-                </div>
+                </article>
 
-                <div class="skill-card reveal">
-                    <i class="bx bx-brain"></i>
-                    <h3>ML & Deep Learning</h3>
+                <article class="skill-card reveal">
+                    <i class="bx bx-search-alt" aria-hidden="true"></i>
+                    <h3>LLM Systems & Retrieval</h3>
                     <div class="skill-tags">
-                        <span>PyTorch</span><span>TensorFlow</span><span>scikit-learn</span><span>CNNs</span>
+                        <span>LangGraph</span><span>LangChain</span><span>RAG</span><span>FAISS</span><span>Embeddings</span><span>Reranking</span><span>Evals</span>
                     </div>
-                </div>
+                </article>
 
-                <div class="skill-card reveal">
-                    <i class="bx bx-message-square-dots"></i>
-                    <h3>NLP & GenAI</h3>
+                <article class="skill-card reveal">
+                    <i class="bx bx-server" aria-hidden="true"></i>
+                    <h3>Backend & Reliability</h3>
                     <div class="skill-tags">
-                        <span>Transformers</span><span>HuggingFace</span><span>LangChain</span><span>LangGraph</span><span>RAG</span>
+                        <span>FastAPI</span><span>Flask</span><span>Redis</span><span>Async Python</span><span>REST APIs</span><span>pytest</span><span>Locust</span>
                     </div>
-                </div>
+                </article>
 
-                <div class="skill-card reveal">
-                    <i class="bx bx-cloud"></i>
-                    <h3>Systems & Tools</h3>
+                <article class="skill-card reveal">
+                    <i class="bx bx-cloud" aria-hidden="true"></i>
+                    <h3>Cloud & DevOps</h3>
                     <div class="skill-tags">
-                        <span>Flask</span><span>REST APIs</span><span>Git</span><span>Linux</span><span>AWS S3</span>
+                        <span>AWS ECS</span><span>S3</span><span>ECR</span><span>Docker</span><span>Terraform</span><span>GitHub Actions</span><span>Prometheus</span><span>Grafana</span>
                     </div>
-                </div>
+                </article>
             </div>
         </section>
 
         <section class="projects" id="projects">
-            <h2 class="section-title reveal">Featured <span>Projects</span></h2>
-            <p class="section-subtitle reveal">
-                Projects that show my current direction: applied AI systems, NLP, generative AI, and secure
-                data workflows.
-            </p>
+            <h2 class="section-title reveal">Featured <span>Work</span></h2>
+            <p class="section-subtitle reveal">Projects that demonstrate how I approach model quality, backend reliability, deployment, experimentation, and technical trade-offs.</p>
 
             <div class="project-grid">
-                <article class="project-card reveal">
-                    <div class="project-image">
-                        <img src="images/reddit-nlp.png" alt="Reddit moderation system" />
-                    </div>
+                <article class="project-card featured reveal">
+                    <div class="project-image"><img src="images/inference.png" alt="Emotion-to-art generation interface" loading="lazy" /></div>
                     <div class="project-content">
-                        <h3>Real-Time Reddit Moderation & Emotion Analysis</h3>
-                        <p>
-                            Built a real-time NLP pipeline using fine-tuned DistilBERT models for hate speech detection
-                            and emotion classification across Reddit posts and nested comments.
-                        </p>
-                        <div class="project-tags">
-                            <span>DistilBERT</span><span>HateXplain</span><span>GoEmotions</span><span>Flask</span>
+                        <div class="project-heading-row"><h3>Inference Reliability Gateway</h3><span class="project-badge">Flagship</span></div>
+                        <p>Built and deployed an async FastAPI gateway with Redis caching, cost-aware routing, retries, circuit breaking, bounded-concurrency backpressure, observability, and AWS autoscaling.</p>
+                        <div class="metric-grid">
+                            <div><strong>20×</strong><span>Throughput</span></div>
+                            <div><strong>114×</strong><span>Cache Speedup</span></div>
+                            <div><strong>42%</strong><span>Lower Cost</span></div>
                         </div>
+                        <div class="project-tags"><span>FastAPI</span><span>Redis</span><span>AWS ECS</span><span>Terraform</span><span>Prometheus</span></div>
                         <div class="project-links">
-                            <a href="https://github.com/SaeeDesai/NLP_Reddit" target="_blank" rel="noreferrer"><i class="bx bxl-github"></i> GitHub</a>
-                            <!--<a href="#" target="_blank" rel="noreferrer"><i class="bx bx-file"></i> Report</a>-->
+                            <a href="https://github.com/SaeeDesai/inference-reliability-gateway" target="_blank" rel="noreferrer"><i class="bx bxl-github"></i> GitHub</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="project-card featured reveal">
+                    <div class="project-image"><img src="images/agentic.png" alt="Emotion-to-art generation interface" loading="lazy" /></div>
+                    <div class="project-content">
+                        <div class="project-heading-row"><h3>Agentic RAG Research Assistant</h3><span class="project-badge">Flagship</span></div>
+                        <p>Created a LangGraph-based research assistant over a 1,953-chunk corpus with semantic retrieval, AWS S3 ingestion, evaluation metrics, and failure analysis for ranking quality.</p>
+                        <div class="metric-grid">
+                            <div><strong>80%</strong><span>Top-1 Precision</span></div>
+                            <div><strong>100%</strong><span>Recall@5</span></div>
+                            <div><strong>0</strong><span>Measured Hallucinations</span></div>
+                        </div>
+                        <div class="project-note"><i class="bx bx-bug-alt"></i> Diagnosed a reranker regression from 80% to 60% and redesigned the retrieval flow.</div>
+                        <div class="project-tags"><span>LangGraph</span><span>FAISS</span><span>Embeddings</span><span>Reranking</span><span>AWS S3</span></div>
+                        <div class="project-links">
+                            <a href="https://github.com/SaeeDesai/research-assistant" target="_blank" rel="noreferrer"><i class="bx bxl-github"></i> GitHub</a>
+                            <a href="https://huggingface.co/spaces/codemon9102/research-assistant" target="_blank" rel="noreferrer"><i class="bx bx-window-open"></i> Live Demo</a>
                         </div>
                     </div>
                 </article>
 
                 <article class="project-card reveal">
-                    <div class="project-image">
-                        <img src="images/emotion-to-art.png" alt="Emotion to art generation" />
-                    </div>
+                    <div class="project-image"><img src="images/pqc-pharma.png" alt="Post-quantum secure pharmacovigilance pipeline" loading="lazy" /></div>
                     <div class="project-content">
-                        <h3>Emotion-to-Art Generation</h3>
-                        <p>
-                            Designed a multimodal system that converts emotional text into generated artwork using
-                            transformer-based emotion embeddings, LoRA, Stable Diffusion, and CLIP evaluation.
-                        </p>
-                        <div class="project-tags">
-                            <span>Stable Diffusion</span><span>LoRA</span><span>CLIP</span><span>Transformers</span>
-                        </div>
+                        <h3>Post-Quantum Secure Pharmacovigilance</h3>
+                        <p>Built a distributed healthcare data pipeline integrating ML-KEM, ML-DSA, AES-256-GCM, Flask APIs, audit logging, adversarial tests, and benchmarking across multiple file formats.</p>
+                        <div class="project-tags"><span>ML-KEM</span><span>ML-DSA</span><span>AES-GCM</span><span>Flask</span></div>
                         <div class="project-links">
-                            <a href="https://github.com/SaeeDesai/Emotion-To-Art-Generator" target="_blank"
-                                rel="noreferrer"><i class="bx bxl-github"></i> GitHub</a>
-                            <!--<a href="#" target="_blank" rel="noreferrer"><i class="bx bx-window-open"></i> Demo</a>-->
-                        </div>
-                    </div>
-                </article>
-
-                <article class="project-card reveal">
-                    <div class="project-image">
-                        <img src="images/pqc-pharma.png" alt="Post quantum secure healthcare pipeline" />
-                    </div>
-                    <div class="project-content">
-                        <h3>Post-Quantum Secure Pharmacovigilance Pipeline</h3>
-                        <p>
-                            Built a secure healthcare data pipeline integrating ML-KEM, ML-DSA, AES-256-GCM, Flask APIs,
-                            attack simulation, and benchmarking across multiple file formats.
-                        </p>
-                        <div class="project-tags">
-                            <span>ML-KEM</span><span>ML-DSA</span><span>AES-GCM</span><span>Flask</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/saeedesai-coder/Pharma-PQC" target="_blank" rel="noreferrer"><i
-                                    class="bx bxl-github"></i> GitHub</a>
+                            <a href="https://github.com/saeedesai-coder/Pharma-PQC" target="_blank" rel="noreferrer"><i class="bx bxl-github"></i> GitHub</a>
                             <a href="papers/PQC_Technical_Paper.pdf"><i class="bx bx-file"></i> Paper</a>
                         </div>
                     </div>
                 </article>
 
                 <article class="project-card reveal">
-                    <div class="project-image">
-                        <img src="images/fer-project.png" alt="Facial expression recognition" />
+                    <div class="project-image"><img src="images/emotion-to-art.png" alt="Emotion-to-art generation interface" loading="lazy" /></div>
+                    <div class="project-content">
+                        <h3>Multimodal Emotion-to-Art Generation</h3>
+                        <p>Designed an end-to-end system that classifies text into 27 emotions and produces aligned artwork using DistilBERT, Stable Diffusion, LoRA, and CLIP-based evaluation.</p>
+                        <div class="project-tags"><span>PyTorch</span><span>Stable Diffusion</span><span>LoRA</span><span>CLIP</span></div>
+                        <div class="project-links"><a href="https://github.com/SaeeDesai/Emotion-To-Art-Generator" target="_blank" rel="noreferrer"><i class="bx bxl-github"></i> GitHub</a></div>
                     </div>
+                </article>
+
+                <article class="project-card reveal">
+                    <div class="project-image"><img src="images/reddit-nlp.png" alt="Reddit moderation and emotion analysis system" loading="lazy" /></div>
+                    <div class="project-content">
+                        <h3>Reddit Moderation & Emotion Analysis</h3>
+                        <p>Built a real-time NLP pipeline using fine-tuned DistilBERT models for hate-speech detection and emotion classification across Reddit posts and nested comments.</p>
+                        <div class="project-tags"><span>DistilBERT</span><span>HateXplain</span><span>GoEmotions</span><span>Flask</span></div>
+                        <div class="project-links"><a href="https://github.com/SaeeDesai/NLP_Reddit" target="_blank" rel="noreferrer"><i class="bx bxl-github"></i> GitHub</a></div>
+                    </div>
+                </article>
+
+                <article class="project-card reveal">
+                    <div class="project-image"><img src="images/fer-project.png" alt="Facial expression recognition project" loading="lazy" /></div>
                     <div class="project-content">
                         <h3>Facial Expression Recognition</h3>
-                        <p>
-                            Built CNN and transfer learning models using MobileNetV2, ResNet, and VGG to classify facial
-                            expressions on a 39,000+ image dataset with class imbalance analysis.
-                        </p>
-                        <div class="project-tags">
-                            <span>CNNs</span><span>Transfer Learning</span><span>TensorFlow</span><span>Computer
-                                Vision</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/SaeeDesai/Facial-Expression-Recognition" target="_blank"
-                                rel="noreferrer"><i class="bx bxl-github"></i> GitHub</a>
-                        </div>
+                        <p>Compared CNN and transfer-learning architectures—including MobileNetV2, ResNet, and VGG—on a 39,000+ image dataset with class-imbalance analysis.</p>
+                        <div class="project-tags"><span>CNNs</span><span>Transfer Learning</span><span>TensorFlow</span><span>Computer Vision</span></div>
+                        <div class="project-links"><a href="https://github.com/SaeeDesai/Facial-Expression-Recognition" target="_blank" rel="noreferrer"><i class="bx bxl-github"></i> GitHub</a></div>
                     </div>
                 </article>
             </div>
         </section>
 
         <section class="research" id="research">
-            <h2 class="section-title reveal">Research & <span>Publication</span></h2>
-            <p class="section-subtitle reveal">
-                Research work connecting secure communication, quantum-safe systems, and applied security pipelines.
-            </p>
+            <h2 class="section-title reveal">Research & <span>Publications</span></h2>
+            <p class="section-subtitle reveal">First-author research spanning post-quantum healthcare security and quantum-secure communication.</p>
 
-            <div class="research-card reveal">
-                <h3>Enhanced Communication Security: Leveraging Quantum Cryptography</h3>
-                <p>
-                    Published with Springer in ICT Analysis and Applications. The work explored quantum key distribution
-                    protocols, AES-based secure communication, and threats such as man-in-the-middle and brute-force
-                    attacks in secure data exchange systems.
-                </p>
-                <div class="project-tags">
-                    <span>Springer</span><span>Quantum Cryptography</span><span>QKD</span><span>AES</span>
-                </div>
-                <div class="project-links">
-                    <a href="https://link.springer.com/chapter/10.1007/978-981-97-9529-1_7" target="_blank"
-                        rel="noreferrer"><i class="bx bx-link-external"></i> Publication</a>
-                    <a href="papers/QKD_Research_Paper.pdf" download><i class="bx bx-download"></i> Download Paper</a>
-                </div>
+            <div class="research-grid">
+                <article class="research-card reveal">
+                    <div class="research-meta"><span>2026</span><span>First Author</span></div>
+                    <h3>Towards Post-Quantum Secure Pharmacovigilance with ML-KEM and ML-DSA</h3>
+                    <p>Designed and evaluated a crypto-agile pharmacovigilance pipeline using standardized post-quantum cryptography, authenticated encryption, modular APIs, and adversarial testing.</p>
+                    <div class="project-tags"><span>Post-Quantum Cryptography</span><span>Healthcare</span><span>ML-KEM</span><span>ML-DSA</span></div>
+                    <div class="project-links"><a href="https://arxiv.org/abs/2606.09412" target="_blank" rel="noreferrer"><i class="bx bx-link-external"></i> View Paper</a></div>
+                </article>
+
+                <article class="research-card reveal">
+                    <div class="research-meta"><span>Springer</span><span>First Author</span></div>
+                    <h3>Enhanced Communication Security: Leveraging Quantum Cryptography</h3>
+                    <p>Explored E91 quantum key distribution, AES-based secure communication, HMAC integrity protection, and defenses against man-in-the-middle and brute-force attacks.</p>
+                    <div class="project-tags"><span>Quantum Cryptography</span><span>QKD</span><span>AES</span><span>Qiskit</span></div>
+                    <div class="project-links">
+                        <a href="https://link.springer.com/chapter/10.1007/978-981-97-9529-1_7" target="_blank" rel="noreferrer"><i class="bx bx-link-external"></i> Publication</a>
+                        <a href="papers/QKD_Research_Paper.pdf" download><i class="bx bx-download"></i> Download Paper</a>
+                    </div>
+                </article>
             </div>
         </section>
 
         <section class="contact" id="contact">
             <h2 class="section-title reveal">Let’s <span>Connect</span></h2>
             <div class="contact-card reveal">
-                <p>
-                    I’m currently exploring full-time opportunities in AI/ML, NLP, GenAI, and applied AI systems. If
-                    you’re working on something interesting at the intersection of models, systems, and real-world
-                    impact, I’d love to connect.
-                </p>
+                <p>I’m available for full-time AI, ML, platform, and software engineering opportunities in the United States and am open to relocation. I’d love to connect with teams building practical, dependable AI products.</p>
                 <div class="hero-buttons">
-                    <a href="mailto:saeedesai.dev@gmail.com" class="btn btn-primary"><i class="bx bx-envelope"></i>
-                        Email
-                        Me</a>
-                    <a href="https://www.linkedin.com/in/saee-desai-237519206" target="_blank" rel="noreferrer"
-                        class="btn btn-secondary"><i class="bx bxl-linkedin"></i> LinkedIn</a>
-                    <a href="https://github.com/SaeeDesai" target="_blank" rel="noreferrer" class="btn btn-secondary"><i
-                            class="bx bxl-github"></i> GitHub</a>
+                    <a href="mailto:saeedesai.dev@gmail.com" class="btn btn-primary"><i class="bx bx-envelope"></i> Email Me</a>
+                    <a href="https://www.linkedin.com/in/saee-desai-237519206" target="_blank" rel="noreferrer" class="btn btn-secondary"><i class="bx bxl-linkedin"></i> LinkedIn</a>
+                    <a href="https://github.com/SaeeDesai" target="_blank" rel="noreferrer" class="btn btn-secondary"><i class="bx bxl-github"></i> GitHub</a>
                 </div>
             </div>
         </section>
@@ -312,7 +276,7 @@
         <p>© <span id="year"></span> Saee Desai. Built with HTML, CSS & JavaScript.</p>
         <a href="#home"><i class="bx bx-up-arrow-alt"></i> Back to top</a>
     </footer>
+
     <script src="script.js"></script>
 </body>
-
 </html>
