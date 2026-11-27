@@ -3,6 +3,11 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from backend.privacy import (
+    ALLOWED_TARGETS,
+    sanitize_referrer,
+    sanitize_campaign,
+)
 
 class AnalyticsEventCreate(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -47,8 +52,8 @@ class AnalyticsEventCreate(BaseModel):
         }
 
         if self.event_type in click_events:
-            if not self.event_target or not self.event_target.strip():
-                raise ValueError("Click events require an event_target")
+            if self.event_target not in ALLOWED_TARGETS[self.event_type]:
+                raise ValueError("Invalid event_target for event type")
         elif self.event_target is not None:
             raise ValueError("event_target is only allowed for click events")
 
@@ -64,4 +69,15 @@ class AnalyticsEventCreate(BaseModel):
         elif self.active_seconds is not None:
             raise ValueError("Unexpected active_seconds field")
 
+        self.referrer_domain = sanitize_referrer(
+            self.referrer_domain
+        )
+
+        for field in ("utm_source", "utm_medium", "utm_campaign"):
+            setattr(
+                self,
+                field,
+                sanitize_campaign(field, getattr(self, field)),
+            )
+            
         return self

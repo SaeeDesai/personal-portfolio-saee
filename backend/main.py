@@ -1,7 +1,7 @@
 from fastapi import Depends, FastAPI, HTTPException, status
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
-
+from fastapi.middleware.cors import CORSMiddleware
 from backend.database import get_db
 from backend.models import AnalyticsEvent
 from backend.schemas import AnalyticsEventCreate
@@ -10,6 +10,18 @@ app = FastAPI(
     title="PortfolioPulse API",
     description="Privacy-conscious portfolio analytics platform",
     version="0.1.0",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+        "https://saeedesai.github.io",
+    ],
+    allow_credentials=False,
+    allow_methods=["POST"],
+    allow_headers=["Content-Type"],
 )
 
 
