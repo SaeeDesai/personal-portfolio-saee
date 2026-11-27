@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from backend.database import get_db
 from backend.models import AnalyticsEvent
 from backend.schemas import AnalyticsEventCreate
+from backend.analytics import router as analytics_router
 
 app = FastAPI(
     title="PortfolioPulse API",
@@ -24,6 +25,7 @@ app.add_middleware(
     allow_headers=["Content-Type"],
 )
 
+app.include_router(analytics_router)
 
 @app.get("/health")
 def health_check():
