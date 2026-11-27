@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>PortfolioPulse | Analytics</title>
+    <link rel="stylesheet" href="/dashboard-assets/style.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">P</div>
+            <div>
+                <h2>PortfolioPulse</h2>
+                <span>Analytics workspace</span>
+            </div>
+        </div>
+
+        <div class="nav-label">WORKSPACE</div>
+
+        <nav>
+            <a href="#overview" class="nav-link active">Overview</a>
+            <a href="#traffic" class="nav-link">Traffic analytics</a>
+            <a href="#engagement" class="nav-link">Engagement</a>
+            <a href="#acquisition" class="nav-link">Acquisition</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <span class="status-dot"></span>
+            Local development
+        </div>
+    </aside>
+
+    <main class="workspace">
+        <header class="topbar">
+            <div>
+                <span class="eyebrow">PERSONAL PORTFOLIO</span>
+                <h1>Analytics Overview</h1>
+                <p class="subtitle">
+                    Understand how visitors engage with your work.
+                </p>
+            </div>
+
+            <div class="toolbar">
+                <select id="date-range" aria-label="Date range">
+                    <option value="1">Last 24 hours</option>
+                    <option value="7" selected>Last 7 days</option>
+                    <option value="30">Last 30 days</option>
+                    <option value="90">Last 90 days</option>
+                    <option value="365">Last 365 days</option>
+                </select>
+
+                <button id="refresh-btn">Refresh</button>
+                <button id="logout-btn" class="logout-btn">Sign out</button>
+            </div>
+        </header>
+
+        <div id="dashboard-status" role="status" aria-live="polite">
+            Waiting for analytics data
+        </div>
+
+        <section id="overview" class="metrics-grid">
+            <article class="metric-card">
+                <span class="metric-label">Page views</span>
+                <strong id="page-views">—</strong>
+                <span class="metric-detail">Total recorded visits</span>
+            </article>
+
+            <article class="metric-card">
+                <span class="metric-label">Sessions</span>
+                <strong id="sessions">—</strong>
+                <span class="metric-detail">Approximate browsing sessions</span>
+            </article>
+
+            <article class="metric-card">
+                <span class="metric-label">Resume clicks</span>
+                <strong id="resume-clicks">—</strong>
+                <span class="metric-detail">Resume link interactions</span>
+            </article>
+
+            <article class="metric-card">
+                <span class="metric-label">Engagement rate</span>
+                <strong id="engagement-rate">—</strong>
+                <span class="metric-detail">Sessions with link clicks</span>
+            </article>
+
+            <article class="metric-card">
+                <span class="metric-label">Average active time</span>
+                <strong id="avg-duration">—</strong>
+                <span class="metric-detail">Estimated time per session</span>
+            </article>
+
+            <article class="metric-card">
+                <span class="metric-label">Project clicks</span>
+                <strong id="project-clicks">—</strong>
+                <span class="metric-detail">Project link interactions</span>
+            </article>
+        </section>
+
+        <section id="traffic" class="dashboard-grid">
+            <article class="panel wide">
+                <div class="panel-header">
+                    <h2>Traffic over time</h2>
+                    <p>Daily page views and sessions · UTC</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="traffic-chart"></canvas>
+                </div>
+            </article>
+
+            <article class="panel">
+                <div class="panel-header">
+                    <h2>Device breakdown</h2>
+                    <p>Traffic by estimated device category</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="device-chart"></canvas>
+                </div>
+            </article>
+        </section>
+
+        <h2 class="section-heading" id="engagement">Content engagement</h2>
+
+        <section class="dashboard-grid equal">
+            <article class="panel">
+                <div class="panel-header">
+                    <h2>Project performance</h2>
+                    <p>Ranked by recorded clicks</p>
+                </div>
+                <div id="project-list" class="data-list"></div>
+            </article>
+
+            <article class="panel">
+                <div class="panel-header">
+                    <h2>Scroll depth</h2>
+                    <p>Percentage of sessions reaching each milestone</p>
+                </div>
+                <div id="scroll-list" class="data-list"></div>
+            </article>
+
+            <article class="panel">
+                <div class="panel-header">
+                    <h2>Publication engagement</h2>
+                    <p>Research and paper interactions</p>
+                </div>
+                <div id="publication-list" class="data-list"></div>
+            </article>
+
+            <article class="panel">
+                <div class="panel-header">
+                    <h2>Link interactions</h2>
+                    <p>Engagement across your portfolio</p>
+                </div>
+                <div id="interaction-list" class="data-list"></div>
+            </article>
+        </section>
+
+        <h2 class="section-heading" id="acquisition">Traffic acquisition</h2>
+
+        <section class="dashboard-grid equal">
+            <article class="panel">
+                <div class="panel-header">
+                    <h2>Referral sources</h2>
+                    <p>Where portfolio traffic originates</p>
+                </div>
+                <div id="referrer-list" class="data-list"></div>
+            </article>
+
+            <article class="panel">
+                <div class="panel-header">
+                    <h2>Campaign performance</h2>
+                    <p>UTM-attributed traffic</p>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Source</th>
+                                <th>Campaign</th>
+                                <th>Views</th>
+                                <th>Sessions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="campaign-table"></tbody>
+                    </table>
+                </div>
+            </article>
+        </section>
+
+        <footer>
+            PortfolioPulse · Privacy-conscious portfolio analytics
+        </footer>
+    </main>
+
+    <script src="/dashboard-assets/vendor/chart.umd.min.js" defer></script>
+    <script src="/dashboard-assets/dashboard.js" defer></script>
+</body>
+</html>

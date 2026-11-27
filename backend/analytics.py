@@ -6,10 +6,12 @@ from sqlalchemy.orm import Session
 
 from backend.database import get_db
 from backend.models import AnalyticsEvent
+from backend.auth import require_admin
 
 router = APIRouter(
     prefix="/analytics",
     tags=["Analytics"],
+    dependencies=[Depends(require_admin)],
 )
 
 CLICK_EVENTS = (

@@ -3,8 +3,18 @@ import pytest
 
 from backend.main import app
 from backend.tests.test_integration import integration_db
+from backend.auth import require_admin
+from backend.models import AdminSession
 
 client = TestClient(app)
+
+@pytest.fixture(autouse=True)
+def authenticated_admin():
+    app.dependency_overrides[require_admin] = lambda: AdminSession()
+
+    yield
+
+    app.dependency_overrides.pop(require_admin, None)
 
 BASE_EVENT = {
     "session_id": "550e8400-e29b-41d4-a716-446655440000",

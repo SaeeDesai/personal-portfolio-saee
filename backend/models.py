@@ -71,3 +71,23 @@ class AnalyticsEvent(Base):
         Index("ix_events_session_id", "session_id"),
         Index("ix_events_type_created_at", "event_type", "created_at"),
     )
+
+class AdminSession(Base):
+    __tablename__ = "admin_sessions"
+
+    token_hash: Mapped[str] = mapped_column(
+        String(64),
+        primary_key=True,
+    )
+
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        nullable=False,
+    )
+
+    expires_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+        index=True,
+    )
