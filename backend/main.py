@@ -12,13 +12,61 @@ from fastapi.responses import FileResponse
 from fastapi import Request
 from fastapi.responses import RedirectResponse
 from backend.auth import require_admin
+from backend.security import (
+    enforce_event_rate_limit,
+    verify_event_origin,
+)
+from backend.security import RequestSizeLimitMiddleware
+from backend.config import validate_production_config
 
+validate_production_config()
 
 app = FastAPI(
     title="PortfolioPulse API",
     description="Privacy-conscious portfolio analytics platform",
     version="0.1.0",
 )
+app.add_middleware(
+    RequestSizeLimitMiddleware,
+    max_bytes=8192,
+)
+
+
+@app.middleware("http")
+async def security_headers(request: Request, call_next):
+    response = await call_next(request)
+
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["Referrer-Policy"] = "no-referrer"
+
+    response.headers["Permissions-Policy"] = (
+        "camera=(), microphone=(), geolocation=()"
+    )
+
+    response.headers["X-Robots-Tag"] = "noindex, nofollow"
+
+    if (
+        request.url.path in {"/dashboard", "/login"}
+        or request.url.path.startswith("/analytics/")
+        or request.url.path.startswith("/auth/")
+    ):
+        response.headers["Cache-Control"] = "no-store"
+
+        response.headers["Content-Security-Policy"] = (
+            "default-src 'self'; "
+            "script-src 'self'; "
+            "style-src 'self'; "
+            "img-src 'self' data:; "
+            "connect-src 'self'; "
+            "font-src 'self'; "
+            "frame-ancestors 'none'; "
+            "base-uri 'none'; "
+            "form-action 'self'; "
+            "object-src 'none'"
+        )
+
+    return response
 
 app.add_middleware(
     CORSMiddleware,
@@ -43,7 +91,15 @@ def health_check():
     }
 
 
-@app.post("/events", status_code=status.HTTP_201_CREATED)
+@app.post(
+    "/events",
+    status_code=status.HTTP_201_CREATED,
+    dependencies=[
+        Depends(verify_event_origin),
+        Depends(enforce_event_rate_limit),
+    ],
+)
+
 def create_event(
     event: AnalyticsEventCreate,
     db: Session = Depends(get_db),

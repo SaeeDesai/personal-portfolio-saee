@@ -46,7 +46,10 @@ def integration_db():
         engine.dispose()
 
 
-client = TestClient(app)
+client = TestClient(
+    app,
+    headers={"Origin": "https://saeedesai.github.io"},
+)
 
 
 def test_event_persisted(integration_db):

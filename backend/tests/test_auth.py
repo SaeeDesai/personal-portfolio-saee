@@ -7,7 +7,6 @@ from fastapi.testclient import TestClient
 from backend.auth import (
     COOKIE_NAME,
     hash_token,
-    login_attempts,
 )
 from backend.main import app
 from backend.models import AdminSession
@@ -33,12 +32,9 @@ def auth_client(integration_db, monkeypatch):
     monkeypatch.setenv("APP_ENV", "development")
     monkeypatch.setenv("DASHBOARD_ORIGIN", ORIGIN)
 
-    login_attempts.clear()
-
     with TestClient(app, base_url=ORIGIN) as client:
         yield client
 
-    login_attempts.clear()
 
 
 def sign_in(client):

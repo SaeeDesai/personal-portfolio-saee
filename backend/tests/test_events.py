@@ -25,7 +25,10 @@ def mock_db():
     app.dependency_overrides.pop(get_db, None)
 
 
-client = TestClient(app)
+client = TestClient(
+    app,
+    headers={"Origin": "https://saeedesai.github.io"},
+)
 
 
 def test_create_event(mock_db):

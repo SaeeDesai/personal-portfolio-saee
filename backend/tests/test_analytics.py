@@ -6,7 +6,10 @@ from backend.tests.test_integration import integration_db
 from backend.auth import require_admin
 from backend.models import AdminSession
 
-client = TestClient(app)
+client = TestClient(
+    app,
+    headers={"Origin": "https://saeedesai.github.io"},
+)
 
 @pytest.fixture(autouse=True)
 def authenticated_admin():

@@ -9,11 +9,9 @@ from fastapi import Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 
 from backend.database import get_db
-from backend.models import AdminSession
+from backend.models import AdminSession, LoginAttempt
+from sqlalchemy import delete, select, func, text
 
-from collections import deque
-from threading import Lock
-from time import monotonic
 
 COOKIE_NAME = "pp_admin_session"
 SESSION_DURATION = timedelta(hours=8)
@@ -47,6 +45,12 @@ def hash_token(token: str) -> str:
 
 
 def create_admin_session(db: Session) -> str:
+    db.execute(
+        delete(AdminSession).where(
+            AdminSession.expires_at <= datetime.now(timezone.utc)
+        )
+    )
+
     token = secrets.token_urlsafe(32)
 
     session = AdminSession(
@@ -96,33 +100,39 @@ def revoke_admin_session(db: Session, token: str):
 MAX_LOGIN_ATTEMPTS = 5
 LOGIN_WINDOW_SECONDS = 900
 
-login_attempts = deque()
-login_lock = Lock()
 
+def enforce_login_rate_limit(
+    db: Session = Depends(get_db),
+):
+    # Serialize login attempts across backend workers.
+    db.execute(
+        text("SELECT pg_advisory_xact_lock(712301)")
+    )
 
-def enforce_login_rate_limit():
-    now = monotonic()
+    now = datetime.now(timezone.utc)
+    cutoff = now - timedelta(seconds=LOGIN_WINDOW_SECONDS)
 
-    with login_lock:
-        while (
-            login_attempts
-            and now - login_attempts[0] >= LOGIN_WINDOW_SECONDS
-        ):
-            login_attempts.popleft()
+    db.execute(
+        delete(LoginAttempt).where(
+            LoginAttempt.created_at <= cutoff
+        )
+    )
 
-        if len(login_attempts) >= MAX_LOGIN_ATTEMPTS:
-            retry_after = max(
-                1,
-                int(LOGIN_WINDOW_SECONDS - (now - login_attempts[0])) + 1,
-            )
+    attempts = db.scalar(
+        select(func.count()).select_from(LoginAttempt)
+    )
 
-            raise HTTPException(
-                status_code=429,
-                detail="Too many login attempts. Try again later.",
-                headers={"Retry-After": str(retry_after)},
-            )
+    if attempts >= MAX_LOGIN_ATTEMPTS:
+        db.rollback()
 
-        login_attempts.append(now)
+        raise HTTPException(
+            status_code=429,
+            detail="Too many login attempts. Try again later.",
+            headers={"Retry-After": str(LOGIN_WINDOW_SECONDS)},
+        )
+
+    db.add(LoginAttempt(created_at=now))
+    db.commit()
 
 def verify_auth_origin(request: Request):
     expected_origin = os.getenv(
