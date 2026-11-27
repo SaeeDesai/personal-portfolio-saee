@@ -65,13 +65,7 @@ navLinks.forEach((link) => {
     });
 });
 
-themeToggle.addEventListener("click", () => {
-    document.body.classList.toggle("dark");
-    const isDark = document.body.classList.contains("dark");
-    localStorage.setItem("theme", isDark ? "dark" : "light");
-    themeIcon.classList.toggle("bx-moon", !isDark);
-    themeIcon.classList.toggle("bx-sun", isDark);
-});
+
 
 window.addEventListener("scroll", () => {
     header.classList.toggle("scrolled", window.scrollY > 40);
