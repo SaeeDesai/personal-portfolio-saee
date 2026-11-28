@@ -6,7 +6,11 @@
         window.location.hostname
     );
 
-    if (!isLocal) return;
+    const isProduction =
+        window.location.origin === "https://saeedesai.github.io" &&
+        window.location.pathname === "/personal-portfolio-saee/";
+
+    if (!isLocal && !isProduction) return;
 
     if (
         navigator.globalPrivacyControl === true ||
@@ -22,7 +26,9 @@
         return;
     }
 
-    const API_URL = "http://localhost:8001/events";
+    const API_URL = isLocal
+        ? "http://localhost:8001/events"
+        : "https://portfoliopulse-rev3.onrender.com/events";
     const PAGE_PATH = "/personal-portfolio-saee/";
 
     function getSessionId() {
@@ -51,6 +57,17 @@
         return "desktop";
     }
 
+    const allowedReferrers = new Set([
+        "linkedin.com",
+        "github.com",
+        "google.com",
+        "bing.com",
+        "duckduckgo.com",
+        "indeed.com",
+        "handshake.com",
+        "joinhandshake.com"
+    ]);
+
     function getReferrerDomain() {
         try {
             if (!document.referrer) return null;
@@ -61,13 +78,45 @@
                 return null;
             }
 
-            return referrer.hostname;
+            const hostname = referrer.hostname
+                .toLowerCase()
+                .replace(/^www\./, "");
+
+            return allowedReferrers.has(hostname)
+                ? hostname
+                : "other";
         } catch {
             return null;
         }
     }
 
     const params = new URLSearchParams(window.location.search);
+
+    const allowedCampaignValues = {
+        utm_source: new Set([
+            "linkedin", "github", "email",
+            "handshake", "google"
+        ]),
+        utm_medium: new Set([
+            "social", "email", "referral", "organic"
+        ]),
+        utm_campaign: new Set([
+            "portfolio_test", "job_search",
+            "recruiter_outreach", "networking"
+        ])
+    };
+
+    function getCampaignValue(key) {
+        const raw = params.get(key);
+
+        if (!raw) return null;
+
+        const value = raw.trim().toLowerCase();
+
+        return allowedCampaignValues[key].has(value)
+            ? value
+            : "other";
+    }
 
     async function trackEvent(eventType, fields = {}) {
         try {
@@ -94,9 +143,9 @@
 
     trackEvent("page_view", {
         referrer_domain: getReferrerDomain(),
-        utm_source: params.get("utm_source"),
-        utm_medium: params.get("utm_medium"),
-        utm_campaign: params.get("utm_campaign"),
+        utm_source: getCampaignValue("utm_source"),
+        utm_medium: getCampaignValue("utm_medium"),
+        utm_campaign: getCampaignValue("utm_campaign"),
     });
 
     const trackedLinks = {
