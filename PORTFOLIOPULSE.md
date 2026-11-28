@@ -387,8 +387,21 @@ python -m uvicorn backend.main:app --reload --port 8001
 In a separate terminal:
 
 ```bash
-python3 -m http.server 8000
+python scripts/serve_frontend.py
 ```
+
+The local frontend server binds exclusively to `127.0.0.1`
+and serves only explicitly approved public portfolio files.
+
+It rejects unapproved paths, directory listings, path traversal,
+encoded traversal and symlink escapes covered by its regression tests.
+
+Serving the repository root directly with Python's default HTTP
+server is intentionally avoided because Git ignore rules do not
+control HTTP file accessibility.
+
+When adding a new public frontend asset, update the allowlist in
+`scripts/serve_frontend.py` and rerun the security regression tests.
 
 The local application is now accessible at:
 
@@ -454,11 +467,24 @@ command.upgrade(Config("alembic.ini"), "head")
 PY
 ```
 
-Run the test suite:
+Run the backend test suite:
 
 ```bash
 python -m pytest backend/tests -q
 ```
+
+Run the local frontend server security regression tests:
+
+```bash
+python -m pytest scripts/test_serve_frontend.py -q
+```
+
+The frontend server tests use temporary synthetic files and
+an isolated loopback HTTP server. They do not require a database
+connection or access to actual environment credentials.
+
+At the Phase 2 local security checkpoint, all 49 automated
+frontend server tests and 18 manual HTTP verification checks passed.
 
 JavaScript syntax checks can also be performed using:
 
@@ -504,6 +530,7 @@ Some of the most valuable parts of this project were the decisions I had to make
 | Validate data on both frontend and backend | Minimize transmitted data while independently validating incoming requests |
 | Avoid persistent visitor identifiers | Prioritize visitor privacy over precise visitor identification |
 | Separate test and production databases | Prevent development and testing from modifying real analytics data |
+| Restrict local frontend file serving | Prevent unintended HTTP access to non-public repository files, at the cost of maintaining an explicit public-file allowlist |
 | Retain manual production deployment | Maintain control over changes to the live application |
 | Use free-tier infrastructure | Keep the project financially sustainable |
 
