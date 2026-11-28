@@ -98,3 +98,43 @@ const revealObserver = new IntersectionObserver(
 );
 
 revealElements.forEach((el) => revealObserver.observe(el));
+
+const analyticsPreference = document.getElementById(
+    "analytics-preference"
+);
+
+if (analyticsPreference) {
+    try {
+        function updatePrivacyButton() {
+            const optedOut =
+                localStorage.getItem("pp_analytics_opt_out") === "true";
+
+            analyticsPreference.textContent = optedOut
+                ? "Enable analytics"
+                : "Disable analytics";
+        }
+
+        analyticsPreference.addEventListener("click", () => {
+            try {
+                const optedOut =
+                    localStorage.getItem("pp_analytics_opt_out") === "true";
+
+                localStorage.setItem(
+                    "pp_analytics_opt_out",
+                    String(!optedOut)
+                );
+
+                sessionStorage.removeItem("pp_session_id");
+                window.location.reload();
+            } catch {
+                analyticsPreference.textContent =
+                    "Unable to save preference";
+            }
+        });
+
+        updatePrivacyButton();
+    } catch {
+        analyticsPreference.textContent = "Analytics unavailable";
+        analyticsPreference.disabled = true;
+    }
+}
