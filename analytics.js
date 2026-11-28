@@ -1,7 +1,7 @@
 (() => {
     "use strict";
 
-    // Local development only. Production tracking is disabled.
+    // Restrict analytics to approved development and production environments.
     const isLocal = ["localhost", "127.0.0.1"].includes(
         window.location.hostname
     );
