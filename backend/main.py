@@ -3,9 +3,11 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
 from backend.database import get_db
-from backend.models import AnalyticsEvent
+from backend.models import AnalyticsEvent, Campaign
+from sqlalchemy import select
 from backend.schemas import AnalyticsEventCreate
 from backend.analytics import router as analytics_router
+from backend.campaigns import router as campaigns_router
 from backend.auth_routes import router as auth_router
 from pathlib import Path
 from fastapi.responses import FileResponse
@@ -94,6 +96,7 @@ app.add_middleware(
 
 app.include_router(analytics_router)
 app.include_router(auth_router)
+app.include_router(campaigns_router)
 
 @app.get("/health")
 def health_check():
@@ -126,11 +129,26 @@ def create_event(
 ):
 
     enforce_session_rate_limit(event.session_id)
-    db_event = AnalyticsEvent(**event.model_dump())
 
     try:
+        campaign_id = None
+
+        if event.campaign_token is not None:
+            campaign_id = db.scalar(
+                select(Campaign.id).where(
+                    Campaign.public_token == event.campaign_token,
+                    Campaign.archived_at.is_(None),
+                ).with_for_update(read=True)
+            )
+
+        db_event = AnalyticsEvent(
+            **event.model_dump(exclude={"campaign_token"}),
+            campaign_id=campaign_id,
+        )
+
         db.add(db_event)
         db.commit()
+
     except SQLAlchemyError:
         db.rollback()
         raise HTTPException(

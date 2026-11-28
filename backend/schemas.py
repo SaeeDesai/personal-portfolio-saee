@@ -1,7 +1,15 @@
 from typing import Literal
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    field_validator,
+    model_validator,
+)
+
+from backend.campaign_schemas import normalize_campaign_token
 
 from backend.privacy import (
     ALLOWED_TARGETS,
@@ -13,6 +21,7 @@ class AnalyticsEventCreate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     session_id: UUID
+    campaign_token: str | None = None
 
     event_type: Literal[
         "page_view",
@@ -40,6 +49,11 @@ class AnalyticsEventCreate(BaseModel):
 
     scroll_depth: int | None = Field(default=None, ge=0, le=100)
     active_seconds: int | None = Field(default=None, ge=0, le=86400)
+
+    @field_validator("campaign_token", mode="before")
+    @classmethod
+    def validate_campaign_token(cls, value):
+        return normalize_campaign_token(value)
 
     @model_validator(mode="after")
     def validate_event_fields(self):

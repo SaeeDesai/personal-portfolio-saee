@@ -58,7 +58,11 @@ class RequestSizeLimitMiddleware:
     async def __call__(self, scope, receive, send):
         if (
             scope["type"] != "http"
-            or scope["path"] not in {"/events", "/auth/login"}
+            or scope["path"] not in {
+                "/events",
+                "/auth/login",
+                "/analytics/managed-campaigns",
+            }
             or scope["method"] != "POST"
         ):
             await self.app(scope, receive, send)
