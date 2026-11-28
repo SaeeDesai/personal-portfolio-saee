@@ -120,6 +120,13 @@
 
     async function trackEvent(eventType, fields = {}) {
         try {
+            if (
+                localStorage.getItem("pp_analytics_opt_out") === "true" ||
+                navigator.globalPrivacyControl === true ||
+                navigator.doNotTrack === "1" ||
+                window.doNotTrack === "1"
+            ) return;
+
             await fetch(API_URL, {
                 method: "POST",
                 headers: {
