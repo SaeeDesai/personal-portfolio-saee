@@ -168,3 +168,20 @@ def test_production_cookie_security(auth_client, monkeypatch):
 
     assert response.status_code == 200
     assert "secure" in response.headers["set-cookie"].lower()
+
+def test_unauthenticated_export(auth_client):
+    response = auth_client.get("/analytics/export")
+    assert response.status_code == 401
+
+
+def test_authenticated_export(auth_client):
+    assert sign_in(auth_client).status_code == 200
+
+    response = auth_client.get("/analytics/export?days=7")
+
+    assert response.status_code == 200
+    assert "text/csv" in response.headers["content-type"]
+    assert "attachment" in response.headers["content-disposition"]
+    assert response.headers["cache-control"] == "no-store"
+    assert "event_type" in response.text
+    assert "session_id" not in response.text

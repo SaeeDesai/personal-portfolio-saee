@@ -3,7 +3,10 @@ from datetime import datetime, timedelta, timezone
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy import distinct, func, select
 from sqlalchemy.orm import Session
+import csv
+from io import StringIO
 
+from fastapi.responses import Response
 from backend.database import get_db
 from backend.models import AnalyticsEvent
 from backend.auth import require_admin
@@ -308,3 +311,56 @@ def get_scroll_depth(
         })
 
     return results
+
+@router.get("/export")
+def export_analytics(
+    days: int = Query(default=7, ge=1, le=365),
+    db: Session = Depends(get_db),
+):
+    since = datetime.now(timezone.utc) - timedelta(days=days)
+
+    rows = db.execute(
+        select(
+            AnalyticsEvent.event_type,
+            AnalyticsEvent.event_target,
+            AnalyticsEvent.referrer_domain,
+            AnalyticsEvent.utm_source,
+            AnalyticsEvent.utm_medium,
+            AnalyticsEvent.utm_campaign,
+            AnalyticsEvent.device_type,
+            AnalyticsEvent.scroll_depth,
+            AnalyticsEvent.active_seconds,
+            AnalyticsEvent.created_at,
+        )
+        .where(AnalyticsEvent.created_at >= since)
+        .order_by(AnalyticsEvent.created_at.desc())
+    ).all()
+
+    output = StringIO()
+    writer = csv.writer(output)
+
+    writer.writerow([
+        "event_type",
+        "event_target",
+        "referrer_domain",
+        "utm_source",
+        "utm_medium",
+        "utm_campaign",
+        "device_type",
+        "scroll_depth",
+        "active_seconds",
+        "created_at_utc",
+    ])
+
+    writer.writerows(rows)
+
+    return Response(
+        content=output.getvalue(),
+        media_type="text/csv",
+        headers={
+            "Content-Disposition": (
+                f'attachment; filename="portfoliopulse_{days}d.csv"'
+            ),
+            "Cache-Control": "no-store",
+        },
+    )

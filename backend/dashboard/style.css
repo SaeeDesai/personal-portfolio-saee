@@ -488,3 +488,17 @@ select:disabled {
     color: #f87171;
     border-color: #f87171;
 }
+
+.export-btn {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+}
+
+.export-btn:hover {
+    background: rgba(155, 135, 245, 0.1);
+}
+
+.toolbar {
+    flex-wrap: wrap;
+}

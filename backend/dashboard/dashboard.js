@@ -406,3 +406,58 @@ window.addEventListener("pageshow", async (event) => {
         window.location.replace("/login");
     }
 });
+
+const exportButton = document.getElementById("export-btn");
+
+exportButton.addEventListener("click", () => {
+    const days = dateRange.value;
+    window.location.assign(`/analytics/export?days=${days}`);
+});
+
+exportButton.addEventListener("click", async () => {
+    exportButton.disabled = true;
+
+    try {
+        const days = dateRange.value;
+
+        const response = await fetch(
+            `/analytics/export?days=${days}`,
+            {
+                credentials: "same-origin",
+                cache: "no-store",
+            }
+        );
+
+        if (response.status === 401) {
+            window.location.replace("/login");
+            return;
+        }
+
+        if (!response.ok) {
+            throw new Error("Export failed");
+        }
+
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `portfoliopulse_${days}d.csv`;
+
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+        dashboardStatus.textContent =
+            "Analytics exported successfully.";
+
+    } catch {
+        dashboardStatus.textContent =
+            "Unable to export analytics. Please try again.";
+
+    } finally {
+        exportButton.disabled = false;
+    }
+});
