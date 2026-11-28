@@ -103,3 +103,34 @@ class RequestSizeLimitMiddleware:
             return await receive()
 
         await self.app(scope, limited_receive, send)
+
+from uuid import UUID
+
+MAX_SESSION_EVENTS = 40
+
+session_attempts = {}
+
+
+def enforce_session_rate_limit(session_id: UUID):
+    now = monotonic()
+
+    with event_lock:
+        for key, attempts in list(session_attempts.items()):
+            while attempts and now - attempts[0] >= EVENT_WINDOW_SECONDS:
+                attempts.popleft()
+
+            if not attempts:
+                del session_attempts[key]
+
+        attempts = session_attempts.setdefault(
+            session_id, deque()
+        )
+
+        if len(attempts) >= MAX_SESSION_EVENTS:
+            raise HTTPException(
+                status_code=429,
+                detail="Session rate limit exceeded",
+                headers={"Retry-After": "60"},
+            )
+
+        attempts.append(now)

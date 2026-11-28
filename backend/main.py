@@ -23,7 +23,7 @@ import os
 import logging
 from fastapi import BackgroundTasks
 from backend.maintenance import maybe_cleanup
-
+from backend.security import enforce_session_rate_limit
 
 validate_production_config()
 
@@ -125,6 +125,7 @@ def create_event(
     db: Session = Depends(get_db),
 ):
 
+    enforce_session_rate_limit(event.session_id)
     db_event = AnalyticsEvent(**event.model_dump())
 
     try:

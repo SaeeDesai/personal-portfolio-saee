@@ -8,8 +8,19 @@
 
     if (!isLocal) return;
 
-    if (navigator.globalPrivacyControl === true ||
-        navigator.doNotTrack === "1") return;
+    if (
+        navigator.globalPrivacyControl === true ||
+        navigator.doNotTrack === "1" ||
+        window.doNotTrack === "1"
+    ) return;
+
+    try {
+        if (localStorage.getItem("pp_analytics_opt_out") === "true") {
+            return;
+        }
+    } catch {
+        return;
+    }
 
     const API_URL = "http://localhost:8001/events";
     const PAGE_PATH = "/personal-portfolio-saee/";
@@ -88,7 +99,7 @@
         utm_campaign: params.get("utm_campaign"),
     });
 
-        const trackedLinks = {
+    const trackedLinks = {
         "resume/SaeeDesai_Resume_AIML.pdf":
             ["resume_click", "resume"],
 
@@ -148,7 +159,7 @@
         });
     });
 
-        // Scroll depth tracking
+    // Scroll depth tracking
     const scrollThresholds = [25, 50, 75, 100];
     const reportedThresholds = new Set();
 

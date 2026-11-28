@@ -110,3 +110,52 @@ def test_login_content_security_policy():
     assert "script-src 'self'" in policy
     assert "frame-ancestors 'none'" in policy
     assert "object-src 'none'" in policy
+
+
+def test_session_rate_limit(mock_db, monkeypatch):
+    from backend.security import session_attempts
+    from uuid import uuid4
+
+    monkeypatch.setattr(
+        "backend.security.MAX_SESSION_EVENTS", 3
+    )
+
+    session_attempts.clear()
+
+    event = {
+        **VALID_EVENT,
+        "session_id": str(uuid4()),
+    }
+
+    try:
+        for _ in range(3):
+            response = client.post(
+                "/events",
+                json=event,
+                headers={"Origin": TRUSTED_ORIGIN},
+            )
+
+            assert response.status_code == 201
+
+        response = client.post(
+            "/events",
+            json=event,
+            headers={"Origin": TRUSTED_ORIGIN},
+        )
+
+        assert response.status_code == 429
+
+        # A different session should still be accepted.
+        response = client.post(
+            "/events",
+            json={
+                **event,
+                "session_id": str(uuid4()),
+            },
+            headers={"Origin": TRUSTED_ORIGIN},
+        )
+
+        assert response.status_code == 201
+
+    finally:
+        session_attempts.clear()
