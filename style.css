@@ -997,3 +997,12 @@ body.dark .header {
         padding-top: 90px;
     }
 }
+
+.analytics-privacy {
+    font-size: 0.65rem;
+    opacity: 0.8;
+    line-height: 1.6;
+    max-width: 650px;
+    margin: 12px auto 0;
+    text-align: center;
+}

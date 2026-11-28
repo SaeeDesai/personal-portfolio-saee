@@ -225,7 +225,7 @@ function renderTraffic(traffic, days) {
     const views = [];
     const sessions = [];
 
-    for (let i = Number(days) - 1; i >= 0; i--) {
+    for (let i = Number(days); i >= 0; i--) {
         const date = new Date();
 
         date.setUTCDate(date.getUTCDate() - i);

@@ -18,14 +18,22 @@ from backend.security import (
 )
 from backend.security import RequestSizeLimitMiddleware
 from backend.config import validate_production_config
+import os
+
 
 validate_production_config()
+
+IS_DEVELOPMENT = os.getenv("APP_ENV") == "development"
 
 app = FastAPI(
     title="PortfolioPulse API",
     description="Privacy-conscious portfolio analytics platform",
     version="0.1.0",
+    docs_url="/docs" if IS_DEVELOPMENT else None,
+    redoc_url="/redoc" if IS_DEVELOPMENT else None,
+    openapi_url="/openapi.json" if IS_DEVELOPMENT else None,
 )
+
 app.add_middleware(
     RequestSizeLimitMiddleware,
     max_bytes=8192,
