@@ -20,6 +20,10 @@ from backend.security import RequestSizeLimitMiddleware
 from backend.config import validate_production_config
 import os
 
+import logging
+from fastapi import BackgroundTasks
+from backend.maintenance import maybe_cleanup
+
 
 validate_production_config()
 
@@ -98,6 +102,13 @@ def health_check():
         "service": "portfoliopulse"
     }
 
+def run_maintenance_safely():
+    try:
+        maybe_cleanup()
+    except Exception:
+        logging.getLogger(__name__).error(
+            "Scheduled maintenance failed"
+        )
 
 @app.post(
     "/events",
@@ -110,8 +121,10 @@ def health_check():
 
 def create_event(
     event: AnalyticsEventCreate,
+    background_tasks: BackgroundTasks,
     db: Session = Depends(get_db),
 ):
+
     db_event = AnalyticsEvent(**event.model_dump())
 
     try:
@@ -124,6 +137,8 @@ def create_event(
             detail="Unable to store analytics event",
         )
 
+    if not IS_DEVELOPMENT:
+        background_tasks.add_task(run_maintenance_safely)
     return {"status": "accepted"}
 
 DASHBOARD_DIR = Path(__file__).resolve().parent / "dashboard"
